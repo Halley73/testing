@@ -7,7 +7,7 @@ var chai = require('chai'),
 
 Person.__set__('os', {
     cpus: function () {
-        return 100;
+        return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     }
 });
 
@@ -24,7 +24,7 @@ after(function (done) {
     fs.unlink('test.json', done);
 });
 
-xdescribe('module testing', function () {
+describe('module testing', function () {
     this.timeout(8000);
 
     xdescribe('Testing our modules', function () {
@@ -67,7 +67,7 @@ xdescribe('module testing', function () {
         });
 
         it('should return 200 cores', function () {
-            person.getCpus().should.equal(200);
+            person.getCpus().should.equal(10);
         });
     });
 });
