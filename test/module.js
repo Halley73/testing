@@ -1,7 +1,15 @@
 var chai = require('chai'),
     expect = chai.expect,
-    Person = require('../person'),
-    fs = require('fs');
+    //Person = require('../person'),
+    fs = require('fs'),
+    rewire = require('rewire'),
+    Person = rewire('../person');
+
+Person.__set__('os', {
+    cpus: function () {
+        return 100;
+    }
+});
 
 var person;
 
@@ -40,7 +48,7 @@ xdescribe('module testing', function () {
         });
     });
 
-    xdescribe('Testing fs module', function () {
+    describe('Testing fs module', function () {
         it('should write a file', function(done) {
             fs.writeFile('test.json', JSON.stringify({test: 'test'}), function (err) {
                 expect(err).to.be.null;
@@ -56,6 +64,10 @@ xdescribe('module testing', function () {
                     done();
                 });
             });
+        });
+
+        it('should return 200 cores', function () {
+            person.getCpus().should.equal(200);
         });
     });
 });

@@ -1,3 +1,5 @@
+var os = require('os');
+
 function Person (name) {
     var me = this;
 
@@ -11,6 +13,10 @@ function Person (name) {
         setTimeout(function () {
             cb(new Error('never'));
         }, 3000);
+    };
+
+    me.getCpus = function () {
+        return os.cpus().length;
     };
 }
 
