@@ -41,10 +41,10 @@ afterEach(function () {
     globalAfterVar = 'hello world';
 });
 
-describe ('Make some testing test', function () {
+xdescribe ('Make some testing test', function () {
     this.timeout(5000);
 
-    xdescribe('Come utente voglio vedere i miei dati', function () {
+    describe('Come utente voglio vedere i miei dati', function () {
         it('should give some data to the user', function () {
             assert.equal(process.env.NODE_ENV, 'testing');
             expect(process.env.NODE_ENV).to.equal('testing');
@@ -83,7 +83,7 @@ describe ('Make some testing test', function () {
         });
     });
 
-    xdescribe('Testing before/beforeEach, after/afterEach', function () {
+    describe('Testing before/beforeEach, after/afterEach', function () {
        it('should define a global variable', function () {
            globalVar.should.be.a('number');
            globalVar = 20;
