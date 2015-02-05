@@ -1,5 +1,6 @@
 var assert = require('assert'),
     chai = require('chai'),
+    sinon = require('sinon'),
     expect = chai.expect;
 
 chai.should();
@@ -41,10 +42,10 @@ afterEach(function () {
     globalAfterVar = 'hello world';
 });
 
-xdescribe ('Make some testing test', function () {
+describe ('Make some testing test', function () {
     this.timeout(5000);
 
-    describe('Come utente voglio vedere i miei dati', function () {
+    xdescribe('Come utente voglio vedere i miei dati', function () {
         it('should give some data to the user', function () {
             assert.equal(process.env.NODE_ENV, 'testing');
             expect(process.env.NODE_ENV).to.equal('testing');
@@ -74,7 +75,7 @@ xdescribe ('Make some testing test', function () {
         });
     });
 
-    describe('Testing async code', function () {
+    xdescribe('Testing async code', function () {
         it('should call the callback', function (done) {
             asyncFn(function (result) {
                 result.should.defined;
@@ -83,7 +84,7 @@ xdescribe ('Make some testing test', function () {
         });
     });
 
-    describe('Testing before/beforeEach, after/afterEach', function () {
+    xdescribe('Testing before/beforeEach, after/afterEach', function () {
        it('should define a global variable', function () {
            globalVar.should.be.a('number');
            globalVar = 20;
@@ -96,6 +97,36 @@ xdescribe ('Make some testing test', function () {
 
         it('should define a global variable with a string', function () {
             globalAfterVar.should.be.a('string');
+        });
+    });
+
+    describe('Testing with Sinon', function () {
+        it('should have called the callback', function () {
+            function caller(cb) {
+                cb(10);
+            };
+
+            function callen() {
+                throw  new Error('exception');
+            };
+
+            var spy = sinon.spy();
+            caller(spy);
+
+            spy.called.should.be.true;
+            spy.calledWith(10).should.be.true;
+        });
+
+        it('should return a number', function () {
+            var stub = sinon.stub();
+
+            stub.withArgs('the meaning of life').returns(42);
+
+            function caller (cb) {
+                return cb('the meaning of life');
+            };
+
+            caller(stub).should.equal(42);
         });
     });
 })
